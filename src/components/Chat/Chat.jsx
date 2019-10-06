@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'react-router-dom';
 
+import './Chat.css';
+
 class Chat extends React.Component{
   constructor(props){
     super(props);
@@ -22,8 +24,14 @@ class Chat extends React.Component{
 
   render(){
     return (
-      <div>
-        Chat
+      <div className="chat-container">
+        <div className="chat-field-container">
+          <div className="chat-field"></div>
+        </div>
+        <div className="chat-message-container">
+          <input type="text" />
+          <button>></button>
+        </div>
       </div>
     );
   }

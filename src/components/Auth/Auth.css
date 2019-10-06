@@ -9,5 +9,47 @@
 
 .auth-container .header{
 	display: flex;
+	font-size: 60px;
+	padding: 20px 0;
+	background: -webkit-linear-gradient(60deg, #a531ff, #ff64f7);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
 
+.auth-container .body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-container .body label{
+	font-size: 24px;
+}
+
+.auth-container .body input{
+	font-size: 18px;
+	padding: 5px 15px;
+	border-radius: 5px;
+	box-shadow: none;
+	outline-offset: 0;
+}
+
+.auth-container .body input:focus{
+	outline: none;
+}
+
+.btnLogin{
+	background: -webkit-linear-gradient(60deg, #a531ff, #ff64f7);
+	padding: 5px 40px;
+	margin-top: 10px;
+	text-decoration: none;
+	color: #ffffff;
+	font-size: 18px;
+	border-radius: 5px;
+}
+
+.auth-container .footer{
+	font-size: 24px;
+	padding: 5px;
 }
