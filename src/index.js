@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './reducers';
 import { BrowserRouter } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import './index.css';
@@ -12,10 +15,14 @@ WebFont.load({
   }
 });
 
+const store = createStore(rootReducer);
+
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root')
 );
 

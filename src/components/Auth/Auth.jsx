@@ -1,13 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
+
+import { login } from "../../actions";
 
 import './Auth.css';
 
 class Auth extends React.Component{
-  state = {
-    user: undefined
-  };
-
   render(){
     return (
       <div className="auth-container">
@@ -23,8 +22,22 @@ class Auth extends React.Component{
   }
 
   handleInputChange(e){
-    this.setState({user: e.target.value});
+    //this.props.store.dispatch(setUser(e.target.value));
+    this.props.login(e.target.value)
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+};
+
+const mapDispatchToProps = dispatch => ({
+  login: name => dispatch(login(name))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth);

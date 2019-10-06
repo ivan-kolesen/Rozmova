@@ -7,8 +7,8 @@ class Message extends React.Component{
     return (
       <div className={`message-container ${this.props.isMine ? "my-message" : ""}`}>
         <div className="message">
-          <div className="message-author">Vano</div>
-          <div className="message-value">Hello friends</div>
+          <div className="message-author">{this.props.message.author}</div>
+          <div className="message-text">{this.props.message.value}</div>
         </div>
       </div>
     );
