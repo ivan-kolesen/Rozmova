@@ -11,7 +11,7 @@ class Auth extends React.Component{
       <div>
         <div>Your name</div>
         <input type="text" />
-        <Link to='/chat'>CHAT!</Link>
+        <Link id='btnLogin' to='/chat'>CHAT!</Link>
       </div>
     );
   }
