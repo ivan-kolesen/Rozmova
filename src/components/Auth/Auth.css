@@ -9,6 +9,7 @@
 
 .auth-container .header{
 	display: flex;
+	font-family: 'Vibes';
 	font-size: 60px;
 	padding: 20px 0;
 	background: -webkit-linear-gradient(60deg, #a531ff, #ff64f7);
@@ -21,15 +22,18 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	font-family: 'Vibes';
 }
 
 .auth-container .body label{
+	font-family: 'Vibes';
 	font-size: 24px;
 }
 
 .auth-container .body input{
 	font-size: 18px;
 	padding: 5px 15px;
+	border: 2px solid ghostwhite;
 	border-radius: 5px;
 	box-shadow: none;
 	outline-offset: 0;
@@ -45,11 +49,13 @@
 	margin-top: 10px;
 	text-decoration: none;
 	color: #ffffff;
+	font-family: 'Vibes';
 	font-size: 18px;
 	border-radius: 5px;
 }
 
 .auth-container .footer{
+	font-family: 'Vibes';
 	font-size: 24px;
 	padding: 5px;
 }

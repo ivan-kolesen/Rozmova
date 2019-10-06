@@ -1,0 +1,36 @@
+.message-container{
+	display: flex;
+	margin: 5px;
+}
+
+.my-message{
+	justify-content: flex-end;
+}
+
+.message{
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: #F5F5F5;
+	border-radius: 5px;
+	border: 1px solid #eeeeee;
+}
+
+.my-message .message{
+	background-color: dodgerblue;
+	color: #ffffff;
+}
+
+.message-author{
+	color: darkgrey;
+	font-size: 10px;
+}
+
+.message-value{
+	color: #292929;
+	font-size: 14px;
+}
+
+.my-message .message-author,
+.my-message .message-value{
+	color: inherit;
+}

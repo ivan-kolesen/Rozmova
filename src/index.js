@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 
 WebFont.load({
   google: {
-    families: ['Vibes:400', 'sans-serif']
+    families: ['Vibes:400', 'Roboto:400', 'sans-serif']
   }
 });
 
