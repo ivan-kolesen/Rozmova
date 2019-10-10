@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from "react-redux";
-import Link from 'react-router-dom';
 
-import Message from '../Message/Message';
+import ChatField from '../../containers/ChatField/ChatField';
 
-import { addMessage } from "../../actions";
+import { addMessage, clearMessages, logout, disconnectWS } from "../../actions";
 
 import './Chat.css';
 
 class Chat extends React.Component{
   constructor(props){
     super(props);
-    this.socket = undefined;
   }
 
   state = {
@@ -19,65 +17,83 @@ class Chat extends React.Component{
   };
 
   componentDidMount(){
-    //this.socket = new WebSocket("wss://rozmova.appspot.com");
-    this.socket = new WebSocket("ws://localhost:8080");
+    console.log(this.props);
+  }
 
-    this.socket.onopen = () => console.log("Соединение установлено.");
+  componentWillUnmount(){
 
-    this.socket.onclose = event => {
-      console.log( event.wasClean ? "Соединение закрыто чисто" : "Обрыв соединения");
-      console.log(`Код: ${event.code}, причина: ${event.reason}`);
-    };
-
-    this.socket.onerror = error => console.log("Ошибка " + error.message, error);
-
-    this.socket.onmessage = event => {
-      const message = JSON.parse(event.data);
-      console.log(message);
-      this.props.addMessage(message);
-    };
   }
 
   render(){
-    console.log(this.props);
+
     return (
       <div className="chat-container">
+        <div className="chat-header">
+          <div className="chat-header-name">{this.props.user.name}</div>
+          <button className="chat-header-btn-exit" onClick={this.handleBtnExit.bind(this)}>X</button>
+        </div>
         <div className="chat-field-container">
           <div className="chat-field">
-            {this.props.messages.map( message => {
-              const isMine = message.author === this.props.user.name;
-              return <Message key={message.id} isMine={isMine} message={message}/>;
-            })}
+            <ChatField />
           </div>
         </div>
         <div className="chat-new-message-container">
-          <input id="inputMessage" type="text" onChange={this.handleMessageTyping.bind(this)}/>
+          <input
+            id="inputMessage"
+            type="text"
+            onChange={this.handleMessageTyping.bind(this)}
+            onKeyPress={this.handleKeyPress.bind(this)}
+          />
           <button id="btnSendMessage" onClick={this.sendMessage.bind(this)}>></button>
         </div>
       </div>
     );
   }
 
+  handleBtnExit(){
+    this.props.websocket.close();
+    this.props.disconnectWS();
+    this.props.clearMessages();
+    this.props.logout();
+  }
+
+  handleKeyPress(e){
+    console.log(e.key)
+    switch(e.key) {
+      case 'Enter':
+        this.sendMessage();
+        break;
+      default:
+        return;
+    }
+  }
+
   sendMessage(){
     if(this.state.message){
       const message = {
-        author: this.props.user.name,
+        author: {
+          id: this.props.user.id,
+          name: this.props.user.name
+        },
         value: this.state.message
       };
 
-      console.log(this.state.message);
+      console.log(message);
 
-      this.socket.send(JSON.stringify(message));
+      this.props.websocket.send(JSON.stringify(message));
       this.clearMessageInput();
     }
   }
 
   handleMessageTyping(e){
     this.setState({ message: e.target.value });
+
   };
 
   clearMessageInput(){
-    document.getElementById("inputMessage").value = "";
+    const inputMessage = document.getElementById("inputMessage");
+    inputMessage.value = "";
+    inputMessage.focus();
     this.setState({ message: "" });
   }
 }
@@ -85,12 +101,16 @@ class Chat extends React.Component{
 const mapStateToProps = state => {
   return {
     user: state.user,
-    messages: state.messages
+    messages: state.messages,
+    websocket: state.websocket
   }
 };
 
 const mapDispatchToProps = dispatch => ({
-  addMessage: name => dispatch(addMessage(name))
+  addMessage: name => dispatch(addMessage(name)),
+  clearMessages: () => dispatch(clearMessages()),
+  logout: () => dispatch(logout()),
+  disconnectWS: () => dispatch(disconnectWS())
 });
 
 export default connect(
