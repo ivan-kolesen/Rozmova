@@ -23,8 +23,10 @@ class FormLogin extends React.Component{
   }
 
   handleBtnLoginClick(){
-    //this.socket = new WebSocket("wss://rozmova.appspot.com");
-    const socket = new WebSocket("ws://localhost:8080");
+    const endpoint = process.env.NODE_ENV === "development"
+      ? "ws://localhost:8080"
+      : "wss://rozmova.appspot.com";
+    const socket = new WebSocket(endpoint);
     this.props.connectWS(socket);
 
     socket.onopen = () => console.log("Соединение установлено.");
