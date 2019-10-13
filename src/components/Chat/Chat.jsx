@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 import ChatField from '../../containers/ChatField/ChatField';
 
@@ -16,16 +17,11 @@ class Chat extends React.Component{
     message: ""
   };
 
-  componentDidMount(){
-    console.log(this.props);
-  }
+  componentDidMount(){}
 
-  componentWillUnmount(){
-
-  }
+  componentWillUnmount(){}
 
   render(){
-
     return (
       <div className="chat-container">
         <div className="chat-header">
@@ -33,9 +29,9 @@ class Chat extends React.Component{
           <button className="chat-header-btn-exit" onClick={this.handleBtnExit.bind(this)}>X</button>
         </div>
         <div className="chat-field-container">
-          <div className="chat-field">
+          <ScrollToBottom className="chat-field">
             <ChatField />
-          </div>
+          </ScrollToBottom>
         </div>
         <div className="chat-new-message-container">
           <input
@@ -58,7 +54,6 @@ class Chat extends React.Component{
   }
 
   handleKeyPress(e){
-    console.log(e.key)
     switch(e.key) {
       case 'Enter':
         this.sendMessage();
@@ -71,14 +66,13 @@ class Chat extends React.Component{
   sendMessage(){
     if(this.state.message){
       const message = {
+        type: "message",
         author: {
           id: this.props.user.id,
           name: this.props.user.name
         },
         value: this.state.message
       };
-
-      console.log(message);
 
       this.props.websocket.send(JSON.stringify(message));
       this.clearMessageInput();

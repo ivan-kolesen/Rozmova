@@ -37,16 +37,21 @@ class FormLogin extends React.Component{
     socket.onerror = error => console.log("Ошибка " + error.message, error);
 
     socket.onmessage = event => {
-      console.log(event.data);
       const message = JSON.parse(event.data);
 
       switch(message.type){
         case "auth":
-          this.props.login(message.value.id, this.state.name);
+          this.props.login(message.userId, this.state.name);
+          this.props.websocket.send(JSON.stringify({
+            type: "newUser",
+            name: this.state.name
+          }));
           break;
         case "message":
-          console.log(message);
-          this.props.addMessage(message.value);
+          this.props.addMessage(message);
+          break;
+        case "newUser":
+          this.props.addMessage(message);
           break;
         default:
           break;
@@ -55,6 +60,13 @@ class FormLogin extends React.Component{
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+    websocket: state.websocket
+  }
+};
+
 const mapDispatchToProps = dispatch => ({
   login: (id, name) => dispatch(login(id, name)),
   addMessage: message => dispatch(addMessage(message)),
@@ -62,6 +74,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FormLogin);
